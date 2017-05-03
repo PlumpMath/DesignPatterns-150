@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using DesignPatterns.Patterns;
+using DesignPatterns.Helpers;
 
 namespace DesignPatterns
 {
@@ -15,7 +16,8 @@ namespace DesignPatterns
         {
             Program p = new Program();
             //p.UseSingleton();   
-            p.UseFactory();
+            //p.UseFactory();
+            p.UseStrategy();
         }
 
         [Test]
@@ -32,6 +34,21 @@ namespace DesignPatterns
         {
             Factory duration = Factory.FromTicks(10);
             Assert.AreEqual(10, duration.Ticks);
+        }
+
+        [Test]
+        public void UseStrategy()
+        {
+            Strategy s = new Strategy();
+            Person p = new Person();
+            var list = p.GetPeople().ToList();
+            list.Sort(s.CompareByAge);
+            list.Sort((x, y) => x.Age.CompareTo(y.Age));
+
+            foreach(var person in list)
+            {
+                Console.WriteLine(person);
+            }
         }
     }
 }
